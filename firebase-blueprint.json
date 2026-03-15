@@ -1,0 +1,131 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "App administrator or owner profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "owner"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Main product information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "brandName": { "type": "string" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "brandName", "category"]
+    },
+    "ProductVariant": {
+      "title": "ProductVariant",
+      "description": "Specific size or variant of a product",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "size": { "type": "string" },
+        "buyingPrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "stockQuantity": { "type": "number" },
+        "lowStockThreshold": { "type": "number" }
+      },
+      "required": ["productId", "size", "buyingPrice", "sellingPrice", "stockQuantity"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer order details",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "packed", "shipped", "delivered", "cancelled"] },
+        "totalAmount": { "type": "number" },
+        "deliveryCharge": { "type": "number" },
+        "isFreeDelivery": { "type": "boolean" },
+        "courierName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "deliveredAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "phone", "status", "totalAmount"]
+    },
+    "OrderItem": {
+      "title": "OrderItem",
+      "description": "Individual items within an order",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "productId": { "type": "string" },
+        "variantId": { "type": "string" },
+        "productName": { "type": "string" },
+        "size": { "type": "string" },
+        "quantity": { "type": "number" },
+        "price": { "type": "number" }
+      },
+      "required": ["orderId", "productId", "variantId", "quantity", "price"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer profile and history",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "totalOrders": { "type": "number" },
+        "totalSpending": { "type": "number" },
+        "loyaltyPoints": { "type": "number" },
+        "lastOrderDate": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone"]
+    },
+    "FinanceTransaction": {
+      "title": "FinanceTransaction",
+      "description": "Income and expense records",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "category": { "type": "string" },
+        "amount": { "type": "number" },
+        "description": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "orderId": { "type": "string" }
+      },
+      "required": ["type", "amount", "date"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Product supplier information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "suppliedProducts": { "type": "array", "items": { "type": "string" } },
+        "duePayments": { "type": "number" },
+        "lastPurchaseDate": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone"]
+    }
+  },
+  "firestore": {
+    "users": { "schema": "User", "description": "Admin users" },
+    "products": { "schema": "Product", "description": "Main product catalog" },
+    "products/{productId}/variants": { "schema": "ProductVariant", "description": "Size variants for products" },
+    "orders": { "schema": "Order", "description": "Customer orders" },
+    "orders/{orderId}/items": { "schema": "OrderItem", "description": "Items in each order" },
+    "customers": { "schema": "Customer", "description": "Customer database" },
+    "finance": { "schema": "FinanceTransaction", "description": "Financial records" },
+    "suppliers": { "schema": "Supplier", "description": "Supplier database" }
+  }
+}

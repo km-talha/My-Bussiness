@@ -1,0 +1,5 @@
+{
+  "name": "PureTaste Business Manager",
+  "description": "A complete business management system for PureTaste, handling orders, inventory, customers, finance, and reports with offline support and multi-language interface.",
+  "requestFramePermissions": []
+}
